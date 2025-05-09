@@ -1,0 +1,123 @@
+.word-list {
+  position: absolute;
+  right: -200px;
+  top: 0;
+  width: 180px;
+  background-color: var(--word-list-bg);
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+}
+
+/* Mobile responsive positioning */
+@media (max-width: 768px) {
+  .word-list {
+    position: fixed;
+    right: 10px;
+    top: auto;
+    bottom: 10px;
+    width: 150px;
+    max-height: 200px;
+    z-index: 100;
+  }
+}
+
+@media (max-width: 480px) {
+  .word-list {
+    width: 120px;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+.word-list h3 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .word-list h3 {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+}
+
+.word-list-container {
+  max-height: 350px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+@media (max-width: 768px) {
+  .word-list-container {
+    max-height: 150px;
+  }
+}
+
+.word-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.word-list-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.word-list-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.word-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.word-list li {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-bottom: 4px;
+  transition: background-color 0.2s ease;
+}
+
+@media (max-width: 480px) {
+  .word-list li {
+    padding: 4px 8px;
+    margin-bottom: 3px;
+    font-size: 0.8rem;
+  }
+}
+
+.word-list li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.word-list li:last-child {
+  border-bottom: none;
+}
+
+.no-words {
+  text-align: center;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 10px;
+}
+
+@media (max-width: 480px) {
+  .no-words {
+    padding: 6px;
+    font-size: 0.8rem;
+  }
+}
