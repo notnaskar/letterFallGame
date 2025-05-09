@@ -7,7 +7,7 @@ const NextTiles = ({ nextTiles }) => {
   
   return (
     <div className="next-tiles-container">
-      <h3>Upcoming Tiles</h3>
+      <span>Upcoming Tiles</span>
       <div className="next-tiles-preview">
         {tilesToShow.map((tile, index) => (
           <div key={index} className="next-tile">

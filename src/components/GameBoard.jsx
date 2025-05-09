@@ -5,7 +5,9 @@ import ScoreDisplay from './ScoreDisplay';
 import NextTiles from './NextTiles';
 import Grid from './Grid';
 import WordList from './WordList';
-
+// Import icons
+import { FaRedo, FaPlay, FaPause } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaArrowDown } from 'react-icons/fa';
 
 const GRID_WIDTH = 9;
 const GRID_HEIGHT = 9;
@@ -418,7 +420,31 @@ const GameBoard = () => {
   
   return (
     <div className="game-container">
-      <ScoreDisplay score={score} combo={combo} />
+      <div className="game-header">
+        <ScoreDisplay score={score} combo={combo} />
+        <div className="button-group">
+          <button 
+            className="icon-button restart-button" 
+            onClick={(e) => {
+              restartGame();
+              e.target.blur();
+            }}
+            title="Restart Game"
+          >
+            <FaRedo />
+          </button>
+          <button 
+            className="icon-button pause-button" 
+            onClick={(e) => {
+              setIsPaused(!isPaused);
+              e.target.blur();
+            }}
+            title={isPaused ? "Resume Game" : "Pause Game"}
+          >
+            {isPaused ? <FaPlay /> : <FaPause />}
+          </button>
+        </div>
+      </div>
       {/* NextTiles above the grid */}
       <NextTiles nextTiles={nextTiles} />
       
@@ -430,16 +456,39 @@ const GameBoard = () => {
       />
       
       <div className="controls">
-        <button onClick={() => moveTileLeft()}>←</button>
-        <button onClick={() => hardDropTile()}>Drop</button>
-        <button onClick={() => moveTileRight()}>→</button>
-        <button onClick={() => setIsPaused(!isPaused)}>
-          {isPaused ? 'Resume' : 'Pause'}
+        <button 
+          className="control-button"
+          onClick={(e) => {
+            if (!isPaused) moveTileLeft();
+            e.target.blur();
+          }}
+          title="Move Left"
+        >
+          <FaArrowLeft />
         </button>
-        <button onClick={restartGame}>Restart</button>
+        <button 
+          className="control-button"
+          onClick={(e) => {
+            if (!isPaused) hardDropTile();
+            e.target.blur();
+          }}
+          title="Drop"
+        >
+          <FaArrowDown />
+        </button>
+        <button 
+          className="control-button"
+          onClick={(e) => {
+            if (!isPaused) moveTileRight();
+            e.target.blur();
+          }}
+          title="Move Right"
+        >
+          <FaArrowRight />
+        </button>
       </div>
       
-      {showWordList && <WordList words={foundWords} />}
+      {/*showWordList && <WordList words={foundWords} />*/}
       {gameOver && <div className="game-over">Game Over!</div>}
       {isPaused && <div className="pause-overlay">Paused</div>}
     </div>
