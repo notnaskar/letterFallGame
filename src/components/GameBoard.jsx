@@ -9,7 +9,7 @@ import WordList from './WordList';
 
 const GRID_WIDTH = 9;
 const GRID_HEIGHT = 9;
-const TICK_SPEED = 300;
+const TICK_SPEED = 500;
 const LETTER_POINTS = 10;
 
 const GameBoard = () => {
