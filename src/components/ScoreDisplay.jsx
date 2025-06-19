@@ -3,9 +3,12 @@ import './GameBoard.css';
 
 const ScoreDisplay = ({ score }) => {
   return (
-    <div className="score-display">
-      Score: {score}
-    </div>
+    <>
+      <div className="score-display">
+        Score: {score}
+      </div>
+    </>
+   
   );
 };
 

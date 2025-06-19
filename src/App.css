@@ -18,7 +18,7 @@
   padding: 20px;
   background-color: white;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
   overflow: hidden;
 }
 
@@ -37,7 +37,7 @@
 }
 
 h1 {
-  color: var(--primary-color);
+  color: rgb(240, 240, 240);
   margin-bottom: 20px;
   position: relative;
   display: inline-block;
@@ -73,6 +73,6 @@ h1::after {
 @media (prefers-color-scheme: dark) {
   .App {
     background-color: #1e293b;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.09);
   }
 }

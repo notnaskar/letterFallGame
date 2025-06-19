@@ -467,14 +467,14 @@ const GameBoard = () => {
           <FaArrowLeft />
         </button>
         <button 
-          className="control-button"
+          className="control-button center-button"
           onClick={(e) => {
             if (!isPaused) hardDropTile();
             e.target.blur();
           }}
           title="Drop"
-        >
-          <FaArrowDown />
+        > FALL
+          {/* FALL   <FaArrowDown /> */}
         </button>
         <button 
           className="control-button"

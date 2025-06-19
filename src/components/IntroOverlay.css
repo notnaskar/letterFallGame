@@ -1,0 +1,301 @@
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* Even more increased transparency for a very clear glass effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(20px); /* Stronger blur for a more pronounced glass effect */
+  color: white;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.intro-content {
+  background: rgba(var(--bg-color-rgb), 0.3); /* Even more transparent background for content */
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.21);
+  animation: fadeInScale 0.6s ease-out forwards;
+  border: 2px solid var(--primary-light);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  transform-origin: center center;
+  overflow: auto;
+  max-height: 90vh;
+}
+
+.intro-content h1 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  font-size: 3.5em;
+  text-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.21);
+}
+
+.tagline {
+  color: var(--accent-color);
+  font-size: 1.4em;
+  margin-bottom: 40px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.game-info-section {
+  margin-bottom: 35px;
+  background-color: rgba(var(--bg-color-rgb), 0.4); /* Increased transparency for section background */
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(var(--grid-border-rgb), 0.3);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.09);
+}
+
+.game-info-section h2 {
+  color: var(--secondary-color);
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 2.2em;
+  border-bottom: 2px solid rgba(var(--secondary-color-rgb), 0.3);
+  padding-bottom: 10px;
+}
+
+.game-rules {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.game-rules li {
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rule-icon {
+  font-size: 1.5em;
+  color: var(--accent-color);
+  margin-right: 10px;
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Adjusted grid for more items */
+  gap: 20px;
+  justify-content: center;
+}
+
+.control-item {
+  background-color: rgba(var(--bg-color-rgb), 0.5); /* Increased transparency for control item background */
+  padding: 20px 25px;
+  border-radius: 12px;
+  min-height: 110px;
+  display: flex;
+  flex-direction: vertical;
+  justify-content: space-around;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(var(--grid-border-rgb), 0.1);
+}
+
+.control-item:hover {
+  transform: translateY(-8px);
+  background-color: rgba(var(--bg-color-rgb), 0.6); /* Increased transparency for hover background */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.control-key {
+  color: var(--secondary-color);
+  font-size: 2.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.control-key svg {
+  font-size: 1.8em;
+}
+
+.control-action {
+  color: var(--text-color);
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.start-game-button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 18px 40px;
+  font-size: 1.8em;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.start-game-button:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+.pulsating-button {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.21); }
+  70% { box-shadow: 0 0 0 20px rgba(var(--primary-color-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0); }
+}
+
+.control-grid.minimal-controls {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjusted for better fitting */
+}
+
+.control-grid.minimal-controls .control-item {
+  width: auto;
+  min-height: 100px;
+  flex-direction: column; /* Ensure items stack vertically */
+  justify-content: center;
+  align-items: center; /* Ensure content is centered */
+}
+
+.control-grid.minimal-controls .control-key svg {
+  font-size: 2.2em; 
+}
+
+/* Responsive adjustments for overall scale */
+@media (max-width: 768px) {
+  .intro-content {
+    transform: translate(-50%, -50%) scale(0.75);
+    max-width: 95%; 
+  }
+
+  @keyframes fadeInScale {
+    to {
+      transform: translate(-50%, -50%) scale(0.75);
+    }
+  }
+
+  .control-grid.minimal-controls .control-key svg {
+    font-size: 2em;
+  }
+
+  .intro-content h1 {
+    font-size: 2.8em;
+  }
+  .tagline {
+    font-size: 1.2em;
+  }
+  .game-info-section h2 {
+    font-size: 1.8em;
+  }
+  .game-rules li {
+    font-size: 1.1em;
+  }
+  .control-key {
+    font-size: 1.8em;
+  }
+  .control-key svg {
+    font-size: 1.5em;
+  }
+  .control-action {
+    font-size: 1em;
+  }
+  .start-game-button {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-content {
+    transform: translate(-50%, -50%) scale(0.7);
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  @keyframes fadeInScale {
+    to {
+      transform: translate(-50%, -50%) scale(0.7);
+    }
+  }
+
+  .intro-content h1 {
+    font-size: 2.2em;
+  }
+
+  .tagline {
+    font-size: 1em;
+  }
+
+  .game-info-section h2 {
+    font-size: 1.5em;
+  }
+  .game-rules li {
+    font-size: 1em;
+  }
+  .rule-icon {
+    font-size: 1.3em;
+  }
+  .control-key {
+    font-size: 1.5em;
+  }
+  .control-key svg {
+    font-size: 1.3em;
+  }
+  .control-action {
+    font-size: 0.9em;
+  }
+  .start-game-button {
+    font-size: 1.2em;
+  }
+
+  .control-grid.minimal-controls {
+    grid-template-columns: 1fr; /* Stack controls on very small screens */
+  }
+
+  .control-grid.minimal-controls .control-item {
+    flex-direction: column; /* Ensure items stack vertically even on small screens */
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+  }
+
+  .control-grid.minimal-controls .control-key {
+    font-size: 1.8em;
+    margin-right: 0; /* Remove horizontal margin if stacking vertically */
+    margin-bottom: 8px; /* Add some vertical spacing */
+  }
+
+  .control-grid.minimal-controls .control-key svg {
+    font-size: 1.5em;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7); /* Adjust initial scale for smooth transition */
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.8); /* Target scale */
+  }
+}

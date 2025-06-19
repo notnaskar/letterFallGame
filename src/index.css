@@ -5,14 +5,21 @@
 
   /* Modern color scheme */
   --primary-color: #6366f1;
-  --primary-light: #818cf8;
+  --primary-color-rgb: 99, 102, 241; /* RGB for --primary-color */
+  --primary-light: #243147;
+  --primary-light-rgb: 129, 140, 248; /* RGB for --primary-light */
   --secondary-color: #10b981;
+  --secondary-color-rgb: 16, 185, 129; /* RGB for --secondary-color */
   --accent-color: #f59e0b;
+  --accent-color-rgb: 245, 158, 11; /* RGB for --accent-color */
   --bg-color: #f8fafc;
+  --bg-color-rgb: 248, 250, 252; /* RGB for --bg-color */
   --text-color: #1e293b;
+  --text-color-rgb: 30, 41, 59; /* RGB for --text-color */
   --grid-border: #cbd5e1;
-  --tile-color: #f59e0b;
-  --tile-color-new: #f59f0b6c;
+  --grid-border-rgb: 203, 213, 225; /* RGB for --grid-border */
+  --tile-color: #7a5310;
+  --tile-color-new: #7a5310;
   --filled-tile: #6366f1;
   --cleared-tile: #ef4444;
   --word-list-bg: rgba(30, 41, 59, 0.8);
@@ -107,8 +114,10 @@ button:focus-visible {
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #0f172a;
+    --bg-color-rgb: 15, 23, 42; /* RGB for dark mode --bg-color */
     --text-color: #f1f5f9;
     --grid-border: #334155;
+    --grid-border-rgb: 51, 65, 85; /* RGB for dark mode --grid-border */
   }
   body {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
