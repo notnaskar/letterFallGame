@@ -1,0 +1,436 @@
+.countdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  gap: 2rem;
+  pointer-events: none;
+}
+
+.countdown-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--bg-color-rgb), 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.countdown-container {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1;
+}
+
+/* Color variants */
+.countdown-container.normal {
+  --primary-glow: rgba(99, 102, 241, 0.6);
+  --secondary-glow: rgba(139, 92, 246, 0.4);
+  --main-color: #6366f1;
+  --accent-color: #8b5cf6;
+}
+
+.countdown-container.warning {
+  --primary-glow: rgba(245, 158, 11, 0.6);
+  --secondary-glow: rgba(249, 115, 22, 0.4);
+  --main-color: #f59e0b;
+  --accent-color: #f97316;
+}
+
+.countdown-container.go {
+  --primary-glow: rgba(16, 185, 129, 0.6);
+  --secondary-glow: rgba(5, 150, 105, 0.4);
+  --main-color: #10b981;
+  --accent-color: #059669;
+}
+
+/* Main content */
+.countdown-content {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.countdown-number {
+  font-size: 6rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 
+    0 0 20px var(--primary-glow),
+    0 0 40px var(--primary-glow),
+    0 0 60px var(--secondary-glow),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: 
+    numberPulse 0.8s ease-out,
+    numberScale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* Progress ring */
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 10px var(--primary-glow));
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 8;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: var(--main-color);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 565.48;
+  stroke-dashoffset: calc(565.48 * (1 - var(--progress, 0)));
+  animation: progressFill 1s ease-out;
+  filter: drop-shadow(0 0 8px var(--main-color));
+}
+
+/* Rotating rings */
+.rings-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid;
+  opacity: 0.3;
+  animation: rotateRing 3s linear infinite;
+}
+
+.ring-1 {
+  width: 200px;
+  height: 200px;
+  border-color: var(--main-color);
+  animation-duration: 3s;
+}
+
+.ring-2 {
+  width: 240px;
+  height: 240px;
+  border-color: var(--accent-color);
+  animation-duration: 4s;
+  animation-direction: reverse;
+  border-style: dashed;
+}
+
+.ring-3 {
+  width: 280px;
+  height: 280px;
+  border-color: var(--main-color);
+  animation-duration: 5s;
+  opacity: 0.2;
+}
+
+/* Particle effects */
+.particle-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--main-color);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--main-color);
+  transform-origin: center;
+  animation: particleBurst 0.8s ease-out forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+/* Glow effect */
+.glow-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(
+    circle,
+    var(--primary-glow) 0%,
+    var(--secondary-glow) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: glowPulse 1.5s ease-in-out infinite;
+  z-index: 0;
+  filter: blur(20px);
+}
+
+/* Pulse waves */
+.pulse-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  border: 3px solid var(--main-color);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pulseOut 1.5s ease-out infinite;
+}
+
+.pulse-2 {
+  animation-delay: 0.5s;
+}
+
+.pulse-3 {
+  animation-delay: 1s;
+}
+
+/* Bottom message */
+.countdown-message {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  animation: messageBounce 0.6s ease-out;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes numberPulse {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes numberScale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateRing {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes particleBurst {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(cos(var(--angle)) * 120px),
+      calc(sin(var(--angle)) * 120px)
+    ) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulseOut {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes progressFill {
+  from {
+    stroke-dashoffset: 565.48;
+  }
+  to {
+    stroke-dashoffset: calc(565.48 * (1 - var(--progress, 0)));
+  }
+}
+
+@keyframes messageBounce {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .countdown-container {
+    width: 240px;
+    height: 240px;
+  }
+
+  .countdown-content {
+    width: 160px;
+    height: 160px;
+  }
+
+  .countdown-number {
+    font-size: 5rem;
+  }
+
+  .ring-1 {
+    width: 180px;
+    height: 180px;
+  }
+
+  .ring-2 {
+    width: 210px;
+    height: 210px;
+  }
+
+  .ring-3 {
+    width: 240px;
+    height: 240px;
+  }
+
+  .countdown-message {
+    font-size: 1.2rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .countdown-backdrop {
+    background: rgba(var(--bg-color-rgb), 0.95);
+  }
+
+  .countdown-number {
+    text-shadow: 
+      0 0 30px var(--primary-glow),
+      0 0 60px var(--primary-glow),
+      0 6px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .ring {
+    opacity: 0.6;
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .countdown-container,
+  .countdown-number,
+  .countdown-message,
+  .particle,
+  .glow-effect,
+  .pulse-wave {
+    animation: none;
+  }
+
+  .ring {
+    animation: none;
+  }
+
+  .countdown-number {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

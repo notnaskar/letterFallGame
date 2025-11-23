@@ -6,6 +6,7 @@ import ScoreDisplay from './ScoreDisplay';
 import NextTiles from './NextTiles';
 import Grid from './Grid';
 import IntroOverlay from './IntroOverlay';
+import Countdown from './Countdown';
 // Import icons
 import { FaRedo, FaPlay, FaPause, FaArrowLeft, FaArrowRight, FaArrowDown, FaBook } from 'react-icons/fa';
 
@@ -353,8 +354,6 @@ const GameBoard = () => {
         clearedCells={clearedCells}
       />
 
-      
-
       <div className="controls">
         <button className="control-button" onClick={moveTileLeft}>
           <FaArrowLeft />
@@ -392,9 +391,10 @@ const GameBoard = () => {
       )}
 
       {countdown !== null && (
-        <div className="overlay glass-panel countdown-overlay">
-          <div className="countdown-number">{countdown}</div>
-        </div>
+        <Countdown 
+          count={countdown === 0 ? 0 : countdown} 
+          onComplete={() => setCountdown(null)}
+        />
       )}
     </div>
   );
