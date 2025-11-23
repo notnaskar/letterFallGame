@@ -2,20 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: middle;
+  justify-content: center;
   margin: 0 auto;
   position: relative;
-  width: fit-content;
-  padding: 20px;
-  max-width: 100%;
-}
-
-/* .center-button{
-  width: 40%;
-} */
-
-.comtrol-button:hover {
-  background-color: var(--primary-light);
+  width: 100%;
+  max-width: 400px;
+  padding: 0;
 }
 
 .game-header {
@@ -23,189 +15,231 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-md);
 }
 
 .button-group {
   display: flex;
-  gap: 10px; /* Space between buttons */
+  gap: var(--spacing-sm);
 }
 
-/* You might want to adjust these button styles as needed */
-.button-group button {
-  padding: 8px 16px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.grid {
-  border: 2px solid var(--grid-border);
-  margin: 20px 0;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015);
-  max-width: 100%;
-}
-
-.row {
-  display: flex;
-}
-
-.cell {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--grid-border);
+.icon-button {
+  padding: 0.6rem;
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  background-color: white;
-  transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
+  background: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--grid-border);
+  box-shadow: var(--tile-shadow);
 }
 
-/* Mobile responsive cells */
-@media (max-width: 480px) {
-  .cell {
-    width: 28px;
-    height: 28px;
-    font-size: 0.9rem;
-  }
+.icon-button:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
 }
 
-/* Very small screens */
-@media (max-width: 350px) {
-  .cell {
-    width: 24px;
-    height: 24px;
-    font-size: 0.8rem;
-  }
+.grid {
+  border: none;
+  margin: 0 auto var(--spacing-lg);
+  background-color: var(--surface-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--tile-shadow);
+  padding: var(--spacing-sm);
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.row {
+  display: contents;
+}
+
+.cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--weight-bold);
+  font-size: var(--font-xl);
+  background-color: var(--bg-color);
+  color: var(--text-secondary);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
 }
 
 .cell.filled {
-  background-color: var(--filled-tile);
-  color: white;
-  transform: scale(0.95);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.09);
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border-color: var(--tile-border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .cell.current {
-  background-color: var(--tile-color);
+  background-color: var(--primary-color);
   color: white;
-  transform: scale(0.95);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.09);
+  box-shadow: 0 4px 6px rgba(var(--primary-color-rgb), 0.3);
+  transform: scale(1.05);
+  z-index: 10;
 }
 
 .cell.cleared {
-  background-color: var(--cleared-tile);
-  animation: flash 0.3s;
+  background-color: var(--secondary-color);
   color: white;
-}
-
-@keyframes flash {
-  0% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.1); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-.score-display {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--primary-color);
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 8px 16px;
-  border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.015);
-}
-
-@media (max-width: 480px) {
-  .score-display {
-    font-size: 18px;
-    padding: 6px 12px;
-  }
+  animation: popIn 0.3s reverse forwards;
 }
 
 .controls {
   display: flex;
-  gap: 10px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: var(--spacing-md);
   width: 100%;
+  justify-content: center;
+  align-items: stretch;
 }
 
-.controls button {
-  min-width: 60px;
+.control-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  background: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--grid-border);
+  box-shadow: var(--tile-shadow);
+  border-radius: var(--radius-md);
 }
 
-@media (max-width: 480px) {
-  .controls {
-    gap: 8px;
-  }
-  
-  .controls button {
-    padding: 8px 12px;
-    min-width: 50px;
-  }
+.center-button {
+  flex: 2;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  gap: var(--spacing-sm);
 }
 
-.game-over {
-  font-size: 32px;
-  color: var(--cleared-tile);
-  margin-top: 20px;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 10px 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+.center-button:hover {
+  background: var(--primary-dark);
 }
 
-@media (max-width: 480px) {
-  .game-over {
-    font-size: 24px;
-    padding: 8px 16px;
-  }
+.button-text {
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.05em;
 }
 
-.pause-overlay {
+.overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.8);
+  padding: var(--spacing-xl);
+  text-align: center;
+  z-index: 50;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.overlay h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.overlay p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.countdown-overlay {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.countdown-number {
+  font-size: 8rem;
+  font-weight: var(--weight-black);
+  background: var(--primary-color);
   color: white;
-  padding: 20px 40px;
-  font-size: 32px;
-  border-radius: 10px;
-  z-index: 10;
-  backdrop-filter: blur(4px);
+  border-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  margin: 0 auto;
 }
 
+/* Mobile Optimization */
 @media (max-width: 480px) {
-  .pause-overlay {
-    padding: 15px 30px;
-    font-size: 24px;
+  .game-container {
+    height: fit-content;
+    justify-content: center; /* Center elements */
+    padding-bottom: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    width: 100%;
+    overflow: hidden;
+    max-width: none;
+    gap: var(--spacing-md);
+  }
+
+  .grid {
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    gap: 2px;
+    margin: 0 !important;
+  }
+
+  .cell {
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
+    border-radius: 3px;
+    border-width: 1px;
+    min-width: 0;
+  }
+  
+  .controls {
+    gap: var(--spacing-sm);
+    padding-bottom: env(safe-area-inset-bottom);
+    width: 98%;
+  }
+  
+  .control-button {
+    padding: var(--spacing-md);
+    font-size: 1.2rem;
+    min-height: 56px; /* Larger touch target */
+  }
+
+  .center-button {
+    font-size: 1rem;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .grid {
-    background-color: rgba(30, 41, 59, 0.3);
-  }
-  
+@media (max-width: 360px) {
   .cell {
-    background-color: #1e293b;
-    border-color: #334155;
+    font-size: 1rem;
   }
   
-  .score-display {
-    background-color: rgba(30, 41, 59, 0.7);
-    color: white;
-    padding: 0;
+  .control-button {
+    padding: 0.8rem;
   }
-  
-  .game-over {
-    background-color: rgba(30, 41, 59, 0.9);
-    color: var(--cleared-tile);
+}
+
+@media (max-height: 700px) {
+  .grid {
+    margin-bottom: 0.2rem;
   }
 }

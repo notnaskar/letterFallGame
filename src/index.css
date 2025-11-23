@@ -1,28 +1,74 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 :root {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Outfit", "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  /* Modern color scheme */
-  --primary-color: #6366f1;
-  --primary-color-rgb: 99, 102, 241; /* RGB for --primary-color */
-  --primary-light: #243147;
-  --primary-light-rgb: 129, 140, 248; /* RGB for --primary-light */
-  --secondary-color: #10b981;
-  --secondary-color-rgb: 16, 185, 129; /* RGB for --secondary-color */
-  --accent-color: #f59e0b;
-  --accent-color-rgb: 245, 158, 11; /* RGB for --accent-color */
-  --bg-color: #f8fafc;
-  --bg-color-rgb: 248, 250, 252; /* RGB for --bg-color */
-  --text-color: #1e293b;
-  --text-color-rgb: 30, 41, 59; /* RGB for --text-color */
-  --grid-border: #cbd5e1;
-  --grid-border-rgb: 203, 213, 225; /* RGB for --grid-border */
-  --tile-color: #7a5310;
-  --tile-color-new: #7a5310;
-  --filled-tile: #6366f1;
-  --cleared-tile: #ef4444;
-  --word-list-bg: rgba(30, 41, 59, 0.8);
+  /* Modern Premium Color Scheme (Slate & Indigo) */
+  --primary-color: #6366f1; /* Indigo 500 */
+  --primary-color-rgb: 99, 102, 241;
+  --primary-dark: #4f46e5; /* Indigo 600 */
+  --primary-light: #818cf8; /* Indigo 400 */
+
+  --secondary-color: #10b981; /* Emerald 500 */
+  --secondary-color-rgb: 16, 185, 129;
+
+  --accent-color: #f59e0b; /* Amber 500 */
+  --accent-color-rgb: 245, 158, 11;
+
+  --danger-color: #ef4444; /* Red 500 */
+
+  --bg-color: #f8fafc; /* Slate 50 */
+  --bg-color-rgb: 248, 250, 252;
+
+  --surface-color: #ffffff;
+  --surface-color-rgb: 255, 255, 255;
+
+  --text-color: #0f172a; /* Slate 900 */
+  --text-color-rgb: 15, 23, 42;
+  --text-secondary: #64748b; /* Slate 500 */
+
+  --grid-border: #e2e8f0; /* Slate 200 */
+  --grid-border-rgb: 226, 232, 240;
+
+  --tile-bg: #ffffff;
+  --tile-border: #cbd5e1; /* Slate 300 */
+  --tile-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+
+  /* Spacing System */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem;  /* 8px */
+  --spacing-md: 1rem;    /* 16px */
+  --spacing-lg: 1.5rem;  /* 24px */
+  --spacing-xl: 2rem;    /* 32px */
+
+  /* Typography System */
+  --font-sm: 0.875rem;   /* 14px */
+  --font-md: 1rem;       /* 16px */
+  --font-lg: 1.25rem;    /* 20px */
+  --font-xl: 1.5rem;     /* 24px */
+  --font-xxl: 2rem;      /* 32px */
+  --font-display: 3rem;  /* 48px */
+  
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* Radius System */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 
   color-scheme: light dark;
   color: var(--text-color);
@@ -34,98 +80,201 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: var(--primary-color);
-  text-decoration: inherit;
-}
-a:hover {
-  color: var(--primary-light);
+/* Dark Mode Overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f172a; /* Slate 900 */
+    --bg-color-rgb: 15, 23, 42;
+
+    --surface-color: #1e293b; /* Slate 800 */
+    --surface-color-rgb: 30, 41, 59;
+
+    --text-color: #f8fafc; /* Slate 50 */
+    --text-secondary: #94a3b8; /* Slate 400 */
+
+    --grid-border: #334155; /* Slate 700 */
+    --grid-border-rgb: 51, 65, 85;
+
+    --tile-bg: #1e293b;
+    --tile-border: #475569; /* Slate 600 */
+
+    --glass-bg: rgba(15, 23, 42, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
 }
 
 body {
   margin: 0;
   display: flex;
   place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: radial-gradient(
+      circle at top left,
+      rgba(var(--primary-color-rgb), 0.15),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(var(--secondary-color-rgb), 0.15),
+      transparent 40%
+    ),
+    var(--bg-color);
 }
 
-h1 {
-  font-size: 2.5em;
-  line-height: 1.1;
-  margin: 0 0 1rem;
-  color: var(--primary-color);
-  font-weight: 700;
-}
-
+/* Mobile-specific body styles */
 @media (max-width: 480px) {
-  h1 {
-    font-size: 2em;
+  body {
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    overflow: hidden; /* Prevent scrolling on mobile */
+    touch-action: none; /* Disable default touch actions */
+    overscroll-behavior: none; /* Prevent pull-to-refresh */
+    -webkit-user-select: none; /* Prevent text selection */
+    user-select: none;
   }
 }
 
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin: 0 0 1.5rem;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  text-align: center;
+}
+
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border-radius: 12px;
+  border: none;
+  padding: 0.8em 1.5em;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
   background-color: var(--primary-color);
   color: white;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 480px) {
-  button {
-    padding: 0.5em 1em;
-    font-size: 0.9em;
-  }
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(var(--primary-color-rgb), 0.3),
+    0 2px 4px -1px rgba(var(--primary-color-rgb), 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 button:hover {
-  background-color: var(--primary-light);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(var(--primary-color-rgb), 0.4),
+    0 4px 6px -2px rgba(var(--primary-color-rgb), 0.2);
 }
+
+button:active {
+  transform: translateY(0);
+}
+
 button:focus,
 button:focus-visible {
   outline: 2px solid var(--primary-light);
   outline-offset: 2px;
 }
 
-/* Add viewport meta tag to ensure proper scaling on mobile devices */
+/* Glassmorphism Utility */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 8px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Mobile Optimization */
 @media (max-width: 768px) {
   html {
     font-size: 14px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  button {
+    padding: 0.7em 1.2em;
   }
 }
 
 @media (max-width: 480px) {
   html {
-    font-size: 13px;
+    font-size: 13px; /* Slightly smaller base size for very small screens */
   }
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #0f172a;
-    --bg-color-rgb: 15, 23, 42; /* RGB for dark mode --bg-color */
-    --text-color: #f1f5f9;
-    --grid-border: #334155;
-    --grid-border-rgb: 51, 65, 85; /* RGB for dark mode --grid-border */
-  }
-  body {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  }
-  button {
-    background-color: var(--primary-light);
-  }
-  button:hover {
-    background-color: var(--primary-color);
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 0rem;
   }
 }

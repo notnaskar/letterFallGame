@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import GameBoard from './components/GameBoard.jsx';
-import IntroOverlay from './components/IntroOverlay.jsx';
-import './App.css';
+import React, { useState } from "react";
+import GameBoard from "./components/GameBoard.jsx";
+import IntroOverlay from "./components/IntroOverlay.jsx";
+import "./App.css";
 
 function App() {
   const [gameStarted, setGameStarted] = useState(false);
@@ -12,9 +12,11 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Fallter</h1>
       {!gameStarted && <IntroOverlay onStartGame={handleStartGame} />}
-      {gameStarted && <GameBoard />}
+      <div className="game-wrapper glass-panel">
+        <h1>Fallter</h1>
+        {gameStarted && <GameBoard />}
+      </div>
     </div>
   );
 }

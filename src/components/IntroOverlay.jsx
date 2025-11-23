@@ -1,51 +1,57 @@
 import React from 'react';
 import './IntroOverlay.css';
-import { FaArrowLeft, FaArrowRight, FaArrowDown, FaKeyboard, FaPlay } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaArrowDown, FaKeyboard, FaPlay, FaTrophy, FaRedo } from 'react-icons/fa';
 
-const IntroOverlay = ({ onStartGame }) => {
+const IntroOverlay = ({ onStartGame, isResume = false }) => {
   return (
     <div className="intro-overlay">
-      <div className="intro-content glow">
-        <h1>Fallter</h1>
-        <p className="tagline">Unscramble, Drop, Conquer!</p>
+      <div className="intro-card glass-panel">
+        <div className="intro-header">
+          <h1 className="game-title">Fallter</h1>
+          <p className="tagline">Unscramble. Drop. Conquer.</p>
+        </div>
 
-        <section className="game-info-section">
-          <h2>How to Play</h2>
-          <ul className="game-rules">
-            <li><FaArrowDown className="rule-icon"/> Drop letters to build words.</li>
-            <li><FaKeyboard className="rule-icon"/> Form 4+ letter words horizontally or vertically.</li>
-            <li><FaPlay className="rule-icon"/> Clear words, score points, avoid the top!</li>
-          </ul>
-        </section>
+        <div className="intro-body">
+          <section className="info-group">
+            <h3><FaTrophy className="icon-accent" /> Objective</h3>
+            <p>Form words of <strong>4+ letters</strong> horizontally or vertically to clear tiles and score points.</p>
+          </section>
 
-        <section className="game-info-section">
-          <h2>Controls</h2>
-          <div className="control-grid minimal-controls">
-            <div className="control-item">
-              <span className="control-key"><FaArrowLeft /><FaArrowRight /></span>
-              <span className="control-action">Move</span>
+          <section className="info-group">
+            <h3><FaKeyboard className="icon-accent" /> Controls</h3>
+            <div className="controls-preview">
+              <div className="control-row">
+                <div className="key-group">
+                  <kbd><FaArrowLeft /></kbd>
+                  <kbd><FaArrowRight /></kbd>
+                </div>
+                <span>Move</span>
+              </div>
+              <div className="control-row">
+                <div className="key-group">
+                  <kbd><FaArrowDown /></kbd>
+                </div>
+                <span>Soft Drop</span>
+              </div>
+              <div className="control-row">
+                <div className="key-group">
+                  <kbd className="wide">Space</kbd>
+                </div>
+                <span>Hard Drop</span>
+              </div>
             </div>
-            <div className="control-item">
-              <span className="control-key"><FaArrowDown /></span>
-              <span className="control-action">Drop</span>
-            </div>
-            <div className="control-item">
-              <span className="control-key">Space</span>
-              <span className="control-action">Hard Drop</span>
-            </div>
-            <div className="control-item">
-              <span className="control-key">P</span>
-              <span className="control-action">Pause</span>
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
 
-        <button onClick={onStartGame} className="start-game-button pulsating-button">
-          Start Game
-        </button>
+        <div className="intro-footer">
+          <button onClick={onStartGame} className="start-button">
+            {isResume ? <FaRedo /> : <FaPlay />}
+            {isResume ? ' Resume Game' : ' Start Game'}
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default IntroOverlay; 
+export default IntroOverlay;

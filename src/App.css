@@ -1,78 +1,43 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  #root {
-    padding: 1rem;
-  }
-}
-
 .App {
-  text-align: center;
+  width: 100%;
+  max-width: 500px;
   margin: 0 auto;
-  max-width: 800px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
-  overflow: hidden;
+  padding: var(--spacing-xl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Allow scrolling on desktop */
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  .App {
-    padding: 15px;
-    border-radius: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .App {
-    padding: 10px;
-    border-radius: 10px;
-  }
-}
-
-h1 {
-  color: rgb(240, 240, 240);
-  margin-bottom: 20px;
+.game-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
   position: relative;
-  display: inline-block;
+  padding-top: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
 }
 
 @media (max-width: 480px) {
-  h1 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-  }
-}
-
-h1::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: var(--accent-color);
-  border-radius: 3px;
-}
-
-@media (max-width: 480px) {
-  h1::after {
-    width: 40px;
-    height: 2px;
-    bottom: -6px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
   .App {
-    background-color: #1e293b;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.09);
+    padding: 0;
+    height: 100dvh; /* Fixed height for mobile app feel */
+    min-height: 100dvh;
+    overflow: hidden;
+  }
+  
+  .game-wrapper {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    justify-content: center; /* Center on mobile as requested */
+    overflow: hidden; /* Keep hidden on mobile for app feel */
+    gap: var(--spacing-md);
   }
 }
