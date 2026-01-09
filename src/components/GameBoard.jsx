@@ -155,6 +155,13 @@ const GameBoard = () => {
     return { x: position.x, y: ghostY };
   }, [position, grid, currentTile]);
 
+  // Encapsulate turn advancement logic
+  const advanceTurn = useCallback(() => {
+    const nextLetter = nextTiles[0];
+    setNextTiles(prev => [...prev.slice(1), generateRandomLetter()]);
+    spawnTile(nextLetter);
+  }, [nextTiles, generateRandomLetter]);
+
   const lockTile = () => {
     const newGrid = [...grid.map(row => [...row])];
     newGrid[position.y][position.x] = currentTile;
@@ -162,83 +169,113 @@ const GameBoard = () => {
     setHardDrop(false);
     
     // Check for words
-    checkForWords(newGrid);
+    const wordsFound = checkForWords(newGrid);
     
-    // Spawn next tile
-    const nextLetter = nextTiles[0];
-    setNextTiles(prev => [...prev.slice(1), generateRandomLetter()]);
-    spawnTile(nextLetter);
+    // Only spawn immediately if NO words were found/clearing
+    // If words found, advanceTurn will be called after animation
+    if (!wordsFound) {
+      advanceTurn();
+    }
   };
 
   const checkForWords = (currentGrid) => {
-    let wordsFound = [];
+    let candidateWords = new Set();
     let cellsToClear = new Set();
     
+    // Helper to process a sequence of letters for valid words
+    const processSequence = (letters, startIdx, isVertical) => {
+      const sequenceStr = letters.map(l => l.char).join('');
+      if (sequenceStr.length < 4) return;
+
+      // Check all substrings of length >= 4
+      for (let len = 4; len <= sequenceStr.length; len++) {
+        for (let i = 0; i <= sequenceStr.length - len; i++) {
+          const subWord = sequenceStr.substring(i, i + len);
+          
+          // Check forward
+          if (wordSet.has(subWord.toLowerCase())) {
+            candidateWords.add(subWord);
+            for (let k = 0; k < len; k++) {
+              const cellIdx = i + k;
+              const cellCoords = letters[cellIdx].coords;
+              cellsToClear.add(`${cellCoords.y},${cellCoords.x}`);
+            }
+          }
+          
+          // Check reverse
+          const reversedSubWord = subWord.split('').reverse().join('');
+          if (wordSet.has(reversedSubWord.toLowerCase())) {
+             candidateWords.add(reversedSubWord);
+             for (let k = 0; k < len; k++) {
+              const cellIdx = i + k;
+              const cellCoords = letters[cellIdx].coords;
+              cellsToClear.add(`${cellCoords.y},${cellCoords.x}`);
+            }
+          }
+        }
+      }
+    };
+
     // Check horizontal
     for (let y = 0; y < GRID_HEIGHT; y++) {
-      let currentWord = '';
-      let currentCells = [];
+      let currentSeq = [];
       
       for (let x = 0; x < GRID_WIDTH; x++) {
         const cell = currentGrid[y][x];
         if (cell) {
-          currentWord += cell;
-          currentCells.push({x, y});
+          currentSeq.push({ char: cell, coords: {x, y} });
         } else {
-          if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
-            wordsFound.push(currentWord);
-            currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
-          }
-          currentWord = '';
-          currentCells = [];
+          processSequence(currentSeq);
+          currentSeq = [];
         }
       }
-      if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
-        wordsFound.push(currentWord);
-        currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
-      }
+      processSequence(currentSeq);
     }
     
     // Check vertical
     for (let x = 0; x < GRID_WIDTH; x++) {
-      let currentWord = '';
-      let currentCells = [];
+      let currentSeq = [];
       
       for (let y = 0; y < GRID_HEIGHT; y++) {
         const cell = currentGrid[y][x];
         if (cell) {
-          currentWord += cell;
-          currentCells.push({x, y});
+          currentSeq.push({ char: cell, coords: {x, y} });
         } else {
-          if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
-            wordsFound.push(currentWord);
-            currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
-          }
-          currentWord = '';
-          currentCells = [];
+          processSequence(currentSeq);
+          currentSeq = [];
         }
       }
-      if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
-        wordsFound.push(currentWord);
-        currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
-      }
+      processSequence(currentSeq);
     }
     
-    if (wordsFound.length > 0) {
+    if (candidateWords.size > 0) {
+      // Filter out substrings for fair scoring
+      // e.g. "HEART" (5) vs "HEAR" (4). Keep "HEART".
+      const uniqueWords = Array.from(candidateWords).sort((a, b) => b.length - a.length);
+      const finalWords = [];
+      
+      for (const word of uniqueWords) {
+        // If this word is not a substring of any already kept word, keep it
+        const isSubstring = finalWords.some(keptWord => keptWord.includes(word));
+        if (!isSubstring) {
+          finalWords.push(word);
+        }
+      }
+
       // Calculate score
       let points = 0;
-      wordsFound.forEach(word => {
+      finalWords.forEach(word => {
         points += word.length * LETTER_POINTS;
       });
       
       // Combo multiplier
-      const newCombo = combo + wordsFound.length;
+      const newCombo = combo + finalWords.length;
       setCombo(newCombo);
       setScore(prev => prev + (points * newCombo));
       
       // Update cleared cells for animation
       setClearedCells(cellsToClear);
-      setFoundWords(prev => [...wordsFound, ...prev].slice(0, 5)); // Keep last 5 words
+      setFoundWords(prev => [...finalWords, ...prev].slice(0, 5)); // Keep last 5 words
       
       // Clear cells after animation
       setTimeout(() => {
@@ -249,9 +286,14 @@ const GameBoard = () => {
         // Apply gravity
         applyGravity(nextGrid);
         setClearedCells(new Set());
+        
+        // Advance turn AFTER clearing is done
+        advanceTurn();
       }, 400);
+      return true; // Words found
     } else {
       setCombo(0);
+      return false; // No words found
     }
   };
 
