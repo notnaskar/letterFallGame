@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import words from 'an-array-of-english-words';
 import { useSwipeable } from 'react-swipeable';
+
+// Convert word array to Set for O(1) lookup performance
+const wordSet = new Set(words);
 import './GameBoard.css';
 import ScoreDisplay from './ScoreDisplay';
 import NextTiles from './NextTiles';
@@ -140,6 +143,18 @@ const GameBoard = () => {
     return true;
   };
 
+  // Calculate where the tile would land if dropped
+  const calculateGhostPosition = useCallback(() => {
+    if (!currentTile) return null;
+
+    let ghostY = position.y;
+    while (ghostY < GRID_HEIGHT && isValidMove(position.x, ghostY + 1)) {
+      ghostY++;
+    }
+
+    return { x: position.x, y: ghostY };
+  }, [position, grid, currentTile]);
+
   const lockTile = () => {
     const newGrid = [...grid.map(row => [...row])];
     newGrid[position.y][position.x] = currentTile;
@@ -170,7 +185,7 @@ const GameBoard = () => {
           currentWord += cell;
           currentCells.push({x, y});
         } else {
-          if (currentWord.length >= 4 && words.includes(currentWord.toLowerCase())) {
+          if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
             wordsFound.push(currentWord);
             currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
           }
@@ -178,7 +193,7 @@ const GameBoard = () => {
           currentCells = [];
         }
       }
-      if (currentWord.length >= 4 && words.includes(currentWord.toLowerCase())) {
+      if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
         wordsFound.push(currentWord);
         currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
       }
@@ -195,7 +210,7 @@ const GameBoard = () => {
           currentWord += cell;
           currentCells.push({x, y});
         } else {
-          if (currentWord.length >= 4 && words.includes(currentWord.toLowerCase())) {
+          if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
             wordsFound.push(currentWord);
             currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
           }
@@ -203,7 +218,7 @@ const GameBoard = () => {
           currentCells = [];
         }
       }
-      if (currentWord.length >= 4 && words.includes(currentWord.toLowerCase())) {
+      if (currentWord.length >= 4 && wordSet.has(currentWord.toLowerCase())) {
         wordsFound.push(currentWord);
         currentCells.forEach(c => cellsToClear.add(`${c.y},${c.x}`));
       }
@@ -346,12 +361,13 @@ const GameBoard = () => {
       </div>
 
       <NextTiles nextTiles={nextTiles} />
-      
-      <Grid 
-        grid={grid} 
-        position={position} 
-        currentTile={currentTile} 
+
+      <Grid
+        grid={grid}
+        position={position}
+        currentTile={currentTile}
         clearedCells={clearedCells}
+        ghostPosition={calculateGhostPosition()}
       />
 
       <div className="controls">

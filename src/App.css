@@ -12,6 +12,14 @@
   box-sizing: border-box;
 }
 
+.header{
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .game-wrapper {
   width: 100%;
   height: 100%;

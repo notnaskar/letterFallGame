@@ -92,6 +92,14 @@
   z-index: 10;
 }
 
+.cell.ghost {
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  color: var(--primary-color);
+  border: 1px dashed var(--primary-color);
+  opacity: 0.5;
+  font-weight: var(--weight-bold);
+}
+
 .cell.cleared {
   background-color: var(--secondary-color);
   color: white;

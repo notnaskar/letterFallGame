@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './GameBoard.css';
 
-const Grid = ({ grid, position = { x: 0, y: 0 }, currentTile, clearedCells = new Set() }) => {
+const Grid = memo(({ grid, position = { x: 0, y: 0 }, currentTile, clearedCells = new Set(), ghostPosition = null }) => {
   return (
     <div className="grid">
       {grid.map((row, y) => (
         <div key={y} className="row">
           {row.map((cell, x) => {
             const isCurrentPosition = x === position.x && y === position.y;
+            const isGhostPosition = ghostPosition && x === ghostPosition.x && y === ghostPosition.y && !isCurrentPosition;
             const isCleared = clearedCells.has(`${y},${x}`);
-            
+
             return (
-              <div 
-                key={x} 
-                className={`cell ${cell ? 'filled' : ''} ${isCurrentPosition && currentTile ? 'current' : ''} ${isCleared ? 'cleared' : ''}`}
+              <div
+                key={x}
+                className={`cell ${cell ? 'filled' : ''} ${isCurrentPosition && currentTile ? 'current' : ''} ${isGhostPosition && currentTile ? 'ghost' : ''} ${isCleared ? 'cleared' : ''}`}
               >
-                {isCurrentPosition && currentTile ? currentTile : cell}
+                {isCurrentPosition && currentTile ? currentTile : (isGhostPosition && currentTile ? currentTile : cell)}
               </div>
             );
           })}
@@ -23,6 +24,8 @@ const Grid = ({ grid, position = { x: 0, y: 0 }, currentTile, clearedCells = new
       ))}
     </div>
   );
-};
+});
+
+Grid.displayName = 'Grid';
 
 export default Grid;
