@@ -251,3 +251,30 @@
     margin-bottom: 0.2rem;
   }
 }
+
+.cell.countdown-shape {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.5);
+}
+
+.content-blur {
+  filter: blur(4px);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  will-change: filter, opacity;
+  transform: translateZ(0); /* Fix for Firefox/Safari rendering issues */
+}
+
+/* Fix for Firefox: Disable backdrop-filter inside blurred elements to prevent rendering failure */
+.content-blur .glass-panel {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none; /* Simplify execution */
+}
+
+.next-tiles-wrapper {
+  width: 100%;
+  margin-bottom: var(--spacing-sm);
+}

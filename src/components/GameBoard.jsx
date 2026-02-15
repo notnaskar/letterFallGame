@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import words from 'an-array-of-english-words';
 import { useSwipeable } from 'react-swipeable';
+import { getCountdownGrid } from '../utils/CountdownPatterns';
 
 // Convert word array to Set for O(1) lookup performance
 const wordSet = new Set(words);
@@ -9,7 +10,7 @@ import ScoreDisplay from './ScoreDisplay';
 import NextTiles from './NextTiles';
 import Grid from './Grid';
 import IntroOverlay from './IntroOverlay';
-import Countdown from './Countdown';
+// Countdown component removed
 // Import icons
 import { FaRedo, FaPlay, FaPause, FaArrowLeft, FaArrowRight, FaArrowDown, FaBook } from 'react-icons/fa';
 
@@ -33,6 +34,8 @@ const GameBoard = () => {
   const [showWordList, setShowWordList] = useState(true); 
   const [showRules, setShowRules] = useState(false);
   const [countdown, setCountdown] = useState(3); // Initialize with 3 for game start
+
+  const isCountdownActive = countdown !== null;
 
   // Letter frequencies based on English language usage (percentages)
   const letterFrequencies = {
@@ -90,18 +93,22 @@ const GameBoard = () => {
   }, [position, gameOver, isPaused, hardDrop, countdown, showRules]);
 
   // Countdown timer effect
+  // Countdown timer effect
   useEffect(() => {
     if (countdown === null) return;
 
-    if (countdown > 0) {
+    // Countdown sequence: 3 -> 2 -> 1 -> 0 (GO) -> null (Start)
+    if (countdown >= 0) {
       const timer = setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
+        if (countdown === 0) {
+          setCountdown(null);
+          setIsPaused(false);
+          // Advance turn immediately after GO? Or just let game loop take over.
+        } else {
+          setCountdown(countdown - 1);
+        }
+      }, 1000); // 1 second per step
       return () => clearTimeout(timer);
-    } else {
-      // Countdown finished
-      setCountdown(null);
-      setIsPaused(false);
     }
   }, [countdown]);
 
@@ -145,7 +152,7 @@ const GameBoard = () => {
 
   // Calculate where the tile would land if dropped
   const calculateGhostPosition = useCallback(() => {
-    if (!currentTile) return null;
+    if (!currentTile || isCountdownActive) return null;
 
     let ghostY = position.y;
     while (ghostY < GRID_HEIGHT && isValidMove(position.x, ghostY + 1)) {
@@ -153,7 +160,7 @@ const GameBoard = () => {
     }
 
     return { x: position.x, y: ghostY };
-  }, [position, grid, currentTile]);
+  }, [position, grid, currentTile, isCountdownActive]);
 
   // Encapsulate turn advancement logic
   const advanceTurn = useCallback(() => {
@@ -385,9 +392,16 @@ const GameBoard = () => {
     setCountdown(3); // Start countdown
   };
 
+  const gridToRender = isCountdownActive && countdown >= 0 
+    ? getCountdownGrid(countdown) 
+    : grid;
+
+  // Mask current tile during countdown to avoid confusion
+  const tileToRender = isCountdownActive ? null : currentTile;
+
   return (
     <div className="game-container" {...handlers}>
-      <div className="game-header">
+      <div className={`game-header ${isCountdownActive ? 'content-blur' : ''}`}>
         <ScoreDisplay score={score} combo={combo} />
         <div className="button-group">
            <button className="icon-button" onClick={handleRulesClick} title="Rules">
@@ -402,17 +416,19 @@ const GameBoard = () => {
         </div>
       </div>
 
-      <NextTiles nextTiles={nextTiles} />
+      <div className={`next-tiles-wrapper ${isCountdownActive ? 'content-blur' : ''}`}>
+        <NextTiles nextTiles={nextTiles} />
+      </div>
 
       <Grid
-        grid={grid}
+        grid={gridToRender}
         position={position}
-        currentTile={currentTile}
+        currentTile={tileToRender}
         clearedCells={clearedCells}
         ghostPosition={calculateGhostPosition()}
       />
 
-      <div className="controls">
+      <div className={`controls ${isCountdownActive ? 'content-blur' : ''}`}>
         <button className="control-button" onClick={moveTileLeft}>
           <FaArrowLeft />
         </button>
@@ -446,13 +462,6 @@ const GameBoard = () => {
 
       {showRules && (
         <IntroOverlay onStartGame={handleResumeFromRules} isResume={true} />
-      )}
-
-      {countdown !== null && (
-        <Countdown 
-          count={countdown === 0 ? 0 : countdown} 
-          onComplete={() => setCountdown(null)}
-        />
       )}
     </div>
   );

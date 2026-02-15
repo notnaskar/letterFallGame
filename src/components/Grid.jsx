@@ -10,13 +10,15 @@ const Grid = memo(({ grid, position = { x: 0, y: 0 }, currentTile, clearedCells 
             const isCurrentPosition = x === position.x && y === position.y;
             const isGhostPosition = ghostPosition && x === ghostPosition.x && y === ghostPosition.y && !isCurrentPosition;
             const isCleared = clearedCells.has(`${y},${x}`);
+            const isShape = cell === '#';
+            const displayCell = isShape ? '' : cell;
 
             return (
               <div
                 key={x}
-                className={`cell ${cell ? 'filled' : ''} ${isCurrentPosition && currentTile ? 'current' : ''} ${isGhostPosition && currentTile ? 'ghost' : ''} ${isCleared ? 'cleared' : ''}`}
+                className={`cell ${cell ? 'filled' : ''} ${isShape ? 'countdown-shape' : ''} ${isCurrentPosition && currentTile ? 'current' : ''} ${isGhostPosition && currentTile ? 'ghost' : ''} ${isCleared ? 'cleared' : ''}`}
               >
-                {isCurrentPosition && currentTile ? currentTile : (isGhostPosition && currentTile ? currentTile : cell)}
+                {isCurrentPosition && currentTile ? currentTile : (isGhostPosition && currentTile ? currentTile : displayCell)}
               </div>
             );
           })}
